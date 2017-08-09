@@ -156,7 +156,7 @@ def play_game():
         while True:
             x = input('Choose x move: ')
             # if not positive int reprompt
-            if x.isdigit():
+            if x.isdigit() and int(x) > 0:
                 x = int(x)
                 break
 
@@ -164,7 +164,7 @@ def play_game():
         while True:
             # if not positive in reprompt
             y = input('Choose y move: ')
-            if y.isdigit():
+            if y.isdigit() and int(y) > 0:
                 y = int(y)
                 break
 
