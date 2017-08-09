@@ -159,12 +159,12 @@ def play_game():
                 y = int(y)
                 break
 
-        if board.grid[x][y].mine:
-            board.grid[x][y].visited = True
+        if board.grid[y][x].mine:
+            board.grid[y][x].visited = True
             game_over = True
             win = False
-        elif not board.grid[x][y].visited:
-            board.make_move(x, y)
+        elif not board.grid[y][x].visited:
+            board.make_move(y, x)
             print(board)
         else:
             print('Already visited')
