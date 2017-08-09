@@ -89,7 +89,7 @@ class Grid:
 
         return result
 
-    def make_move(self, x_coord: int, y_coord: int) -> bool:
+    def make_move(self, x_coord: int, y_coord: int):
         """
         Based on coordinates given by player visit cell and unlock all adjacent cells if cell value is > 0 and adjacent
         cell has the same cell value as the current cell
@@ -97,15 +97,9 @@ class Grid:
         :param y_coord:
         :return:
         """
-        # Check if mine has been chosen if so return false for game over
-        if self.grid[x_coord][y_coord].mine:
-            self.grid[x_coord][y_coord].mine = False
-            self.grid[x_coord][y_coord].value = 'X'
-            return False
-
         # if cell has already be visited ignore and return true, else update status
         if self.grid[x_coord][y_coord].visited:
-            return True
+            return
         else:
             self.grid[x_coord][y_coord].visited = True
 
@@ -119,8 +113,6 @@ class Grid:
                         self.make_move(x, y)
                     else:
                         self.grid[x][y].visited = True
-
-        return True
 
 
 def play_game():
@@ -167,19 +159,18 @@ def play_game():
                 y = int(y)
                 break
 
-        # check if cell has been visited
-        if not board.grid[x][y].visited:
-            # returns true if valid move - not a mine
-            if not board.make_move(x, y):
-                game_over = True
-                win = False
-            else:
-                print(board)
+        if board.grid[x][y].mine:
+            board.grid[x][y].visited = True
+            game_over = True
+            win = False
+        elif not board.grid[x][y].visited:
+            board.make_move(x, y)
+            print(board)
         else:
             print('Already visited')
 
         # check if all valid cells visited if so game won
-        if all(x.visited for x in chain.from_iterable(board.grid)):
+        if all(x.visited or x.mine for x in chain.from_iterable(board.grid)):
             game_over = True
             win = True
 
