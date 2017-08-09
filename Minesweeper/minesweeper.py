@@ -53,7 +53,6 @@ class Grid:
             if not self.grid[x][y].mine:
                 # If not a mine set cell as mine and value as X
                 self.grid[x][y].mine = True
-                self.grid[x][y].visited = True
                 self.grid[x][y].value = 'X'
                 mines -= 1
 
@@ -156,7 +155,7 @@ def play_game():
         while True:
             x = input('Choose x move: ')
             # if not positive int reprompt
-            if x.isdigit() and int(x) > 0:
+            if x.isdigit():
                 x = int(x)
                 break
 
@@ -164,7 +163,7 @@ def play_game():
         while True:
             # if not positive in reprompt
             y = input('Choose y move: ')
-            if y.isdigit() and int(y) > 0:
+            if y.isdigit():
                 y = int(y)
                 break
 
