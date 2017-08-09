@@ -1,6 +1,7 @@
 import random
 from itertools import chain
 
+
 class Cell:
     def __init__(self, value: int):
         self.mine = False
@@ -50,7 +51,7 @@ class Grid:
             y = random.randint(0, self.size - 1)
 
             if not self.grid[x][y].mine:
-                # If not a mine set cell as mine and value as -1
+                # If not a mine set cell as mine and value as X
                 self.grid[x][y].mine = True
                 self.grid[x][y].visited = True
                 self.grid[x][y].value = 'X'
@@ -80,11 +81,12 @@ class Grid:
         result = 0
 
         # loop through all valid adjacent cells and check for mines
-        for x, y in [(x_coord + i, y_coord + j) for i in (-1, 0, 1) for j in (-1, 0, 1)
-                     if 0 <= x_coord + i < self.size or 0 <= y_coord + j < self.size]:
-            # if mine is found increase result by 1
-            if self.grid[x][y].mine:
-                result += 1
+        for x, y in [(x_coord + i, y_coord + j) for i in (-1, 0, 1) for j in (-1, 0, 1) if i != 0 or j != 0]:
+            # ensure in bounds of board
+            if 0 <= x < self.size and 0 <= y < self.size:
+                # if mine is found increase result by 1
+                if self.grid[x][y].mine:
+                    result += 1
 
         return result
 
@@ -98,6 +100,7 @@ class Grid:
         """
         # Check if mine has been chosen if so return false for game over
         if self.grid[x_coord][y_coord].mine:
+            self.grid[x_coord][y_coord].mine = False
             self.grid[x_coord][y_coord].value = 'X'
             return False
 
@@ -108,12 +111,15 @@ class Grid:
             self.grid[x_coord][y_coord].visited = True
 
         # loop through all adjacent cells if one is same value and not a mine recursively continue exploration
-        for x, y in [(x_coord + i, y_coord + j) for i in (-1, 0, 1) for j in (-1, 0, 1)
-                     if (0 <= x_coord + i < self.size or 0 <= y_coord + j < self.size)]:
-
-                if self.grid[x][y].value == self.grid[x_coord][y_coord].value and not self.grid[x][y].mine \
-                        and self.grid[x][y].value > 1:
-                    self.make_move(x, y)
+        for x, y in [(x_coord + i, y_coord + j) for i in (-1, 0, 1) for j in (-1, 0, 1) if i != 0 or j != 0]:
+            # ensure in bounds of board
+            if 0 <= x < self.size and 0 <= y < self.size:
+                if not self.grid[x][y].mine:
+                    # if same value continue expansion else visit and stop
+                    if self.grid[x][y].value == self.grid[x_coord][y_coord].value:
+                        self.make_move(x, y)
+                    else:
+                        self.grid[x][y].visited = True
 
         return True
 
@@ -162,25 +168,29 @@ def play_game():
                 y = int(y)
                 break
 
-        # if already visited cell repromt
+        # check if cell has been visited
         if not board.grid[x][y].visited:
-            # returns true if valid move  - not a mine
+            # returns true if valid move - not a mine
             if not board.make_move(x, y):
                 game_over = True
                 win = False
-            # check if all valid cells visited if so game won
-            elif all(x.visited for x in chain.from_iterable(board.grid)):
-                game_over = True
-                win = True
-            print(board)
+            else:
+                print(board)
         else:
             print('Already visited')
 
+        # check if all valid cells visited if so game won
+        if all(x.visited for x in chain.from_iterable(board.grid)):
+            game_over = True
+            win = True
+
+    print(board)
+
     # finish game
     if win:
-        print('Winner, winner chicken dinner')
+        print('Winner, winner chicken dinner!')
     else:
-        print('Game over, you hit a mine')
+        print('Game over, you hit a mine!')
 
 
 if __name__ == '__main__':
