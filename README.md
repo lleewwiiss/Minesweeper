@@ -1,11 +1,11 @@
 # Minesweeper
-Command line based Minesweeper game
+Command line based Minesweeper game<br>
 
 ## Example Game
-Run: `python minesweeper.py`
-Input size of board
-`Choose width of board:` 3
-`Choose number of mines:` 2
+Run: `python minesweeper.py`<br>
+Input size of board<br>
+`Choose width of board:` 3<br>
+`Choose number of mines:` 2<br>
 
 ```
 -------------
@@ -16,7 +16,7 @@ Input size of board
 |   |   |   |
 -------------
 ```
-`Choose x move:` 0
+`Choose x move:` 0<br>
 `Choose x move:`  0
 
 ```
@@ -28,7 +28,7 @@ Input size of board
 |   |   |   |
 -------------
 ```
-`Choose x move:` 0
+`Choose x move:` 0<br>
 `Choose x move:`  2
 
 ```
