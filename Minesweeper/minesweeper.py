@@ -134,7 +134,7 @@ def play_game():
     while True:
         mines = input('Choose number of mines: ')
         if mines.isdigit():
-            if int(size) < 1:
+            if int(mines) < 1:
                 print('Must have at least 1 mine')
             else:
                 mines = int(mines)
