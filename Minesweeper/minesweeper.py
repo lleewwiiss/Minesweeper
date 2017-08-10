@@ -124,15 +124,21 @@ def play_game():
     while True:
         size = input('Choose width of board: ')
         if size.isdigit():
-            size = int(size)
-            break
+            if int(size) < 2:
+                print('Must be greater than 1')
+            else:
+                size = int(size)
+                break
 
     # check if input is a valid positive integer, else reprompt
     while True:
         mines = input('Choose number of mines: ')
         if mines.isdigit():
-            mines = int(mines)
-            break
+            if int(size) < 1:
+                print('Must have at least 1 mine')
+            else:
+                mines = int(mines)
+                break
 
     # Initialise game
     win = False
